@@ -1,0 +1,62 @@
+plugins {
+    id 'com.android.application'
+}
+
+kotlin {
+    jvmToolchain(17)
+}
+
+android {
+
+    compileSdkVersion 37
+
+    defaultConfig {
+        applicationId "com.alexvas.rtsp.demofs"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+// To inline the bytecode built with JVM target 1.8 into
+// bytecode that is being built with JVM target 1.6. (e.g. navArgs)
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    buildFeatures {
+        viewBinding true
+    }
+    namespace 'com.alexvas.rtsp.demofs'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.core:core-ktx:1.19.0'
+    implementation 'com.google.android.material:material:1.14.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+    def androidx_navigation_version = '2.9.8'
+    implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$androidx_navigation_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$androidx_navigation_version"
+
+    def logcat_core_version = '3.4'
+    api "com.github.AppDevNext.Logcat:LogcatCoreLib:$logcat_core_version"
+    api "com.github.AppDevNext.Logcat:LogcatCoreUI:$logcat_core_version"
+
+    implementation project(':library-client-rtsp')
+}
