@@ -11,18 +11,15 @@ import com.alexvas.rtsp.widget.RtspSurfaceView
 
 class MainActivity : AppCompatActivity() {
 
-    private fun showSystemUI() {
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        super.onCreate(null)
+//        super.onCreate(savedInstanceState)
 
         supportActionBar?.hide()
 
+        setContentView(R.layout.activity_main)
+
+/*
         val svVideo: RtspSurfaceView = findViewById(R.id.svVideo)
         val uri = Uri.parse("rtsp://192.168.78.146:1935")
         val username = "admin"
@@ -30,9 +27,9 @@ class MainActivity : AppCompatActivity() {
         svVideo.init(uri, username, password)
         svVideo.start(
             requestVideo = true,
-            requestAudio = true,
+            requestAudio = false,
             requestApplication = false)
-
+*/
         
 
 
@@ -47,5 +44,27 @@ class MainActivity : AppCompatActivity() {
 //                R.id.navigation_live, R.id.navigation_logs))
 //        setupActionBarWithNavController(navController, appBarConfiguration)
 //        navView.setupWithNavController(navController)
+    }
+
+    override fun onPause()
+    {
+        val svVideo: RtspSurfaceView = findViewById(R.id.svVideo)
+        svVideo.stop()
+        super.onPause()
+    }
+
+    override fun onResume()
+    {
+        super.onResume()
+        val svVideo: RtspSurfaceView = findViewById(R.id.svVideo)
+        val uri = Uri.parse("rtsp://192.168.78.146:1935")
+        val username = "admin"
+        val password = "secret"
+        svVideo.init(uri, username, password)
+        svVideo.start(
+            requestVideo = true,
+            requestAudio = false,
+            requestApplication = false)
+
     }
 }
