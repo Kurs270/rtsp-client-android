@@ -7,7 +7,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import android.net.Uri
 import android.view.View
+import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowCompat
 import com.alexvas.rtsp.widget.RtspSurfaceView
+
+val url = "rtsp://192.168.78.95"
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,9 +24,16 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-/*
+        val windowInsetsController =
+            WindowCompat.getInsetsController(window, window.decorView)
+        // Configure the behavior of the hidden system bars.
+        windowInsetsController.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+
         val svVideo: RtspSurfaceView = findViewById(R.id.svVideo)
-        val uri = Uri.parse("rtsp://192.168.78.146:1935")
+//        val uri = Uri.parse("rtsp://192.168.78.95:1935")
+        val uri = Uri.parse( url )
         val username = "admin"
         val password = "secret"
         svVideo.init(uri, username, password)
@@ -29,22 +41,7 @@ class MainActivity : AppCompatActivity() {
             requestVideo = true,
             requestAudio = false,
             requestApplication = false)
-*/
-        
-
-
-        //showSystemUI()
- 
-        //val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
-        //val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-//        val appBarConfiguration = AppBarConfiguration(setOf(
-//                R.id.navigation_live, R.id.navigation_logs))
-//        setupActionBarWithNavController(navController, appBarConfiguration)
-//        navView.setupWithNavController(navController)
-    }
+     }
 
     override fun onPause()
     {
@@ -57,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     {
         super.onResume()
         val svVideo: RtspSurfaceView = findViewById(R.id.svVideo)
-        val uri = Uri.parse("rtsp://192.168.78.146:1935")
+        val uri = Uri.parse( url )
         val username = "admin"
         val password = "secret"
         svVideo.init(uri, username, password)
